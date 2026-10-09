@@ -6,6 +6,8 @@ A cloud-native, GitOps-managed observability viewer and dashboard for Bats test 
 
 The Bats Test Reporter ingests JUnit XML test reports generated during smoke and integration test runs (e.g., `make test`), merges them across fast transient storage (**Moto S3**) and durable long-term storage (**GitHub Git Archive**), and serves both a responsive web UI and a structured JSON / Prometheus metrics API.
 
+The image is built and keylessly signed by `.github/workflows/image.yaml` and deployed by digest. `platform-reports` does not opt into the current tenant image verification policy, which covers `orders-processor`; the reporter signature is verified at release time but is not enforced by admission in this lab.
+
 ```
 +-----------------------------------------------------------------------------------+
 | Host Test Execution (make test / scripts/smoke-test-hub-spoke-bats.sh)             |
@@ -70,7 +72,7 @@ The Bats Test Reporter ingests JUnit XML test reports generated during smoke and
 | `/api/runs` | GET | List all runs sorted reverse-chronologically with metadata |
 | `/api/runs/{run_id}` | GET | Get full run details including suite breakdown |
 | `/api/runs/{run_id}/cases`| GET | Flat list of individual test cases with pass/fail status |
-| `/metrics` | GET | Low-cardinality Prometheus metrics for alerting and dashboards |
+| `/metrics` | GET | Low-cardinality Prometheus metrics; the lab does not yet scrape this endpoint |
 | `/healthz` | GET | Liveness probe endpoint |
 | `/readyz` | GET | Readiness probe endpoint |
 
