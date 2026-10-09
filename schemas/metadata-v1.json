@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/brunobml/bats-test-reporter/main/schemas/metadata-v1.json",
+  "title": "BatsTestRunMetadata",
+  "description": "Metadata for a sanitized Bats test run",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "start_time_utc",
+    "end_time_utc",
+    "bats_version",
+    "suite",
+    "exit_code",
+    "summary",
+    "source",
+    "report_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": ["1.0.0"]
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9]{8}T[0-9]{6}Z-[a-f0-9]{6}$"
+    },
+    "start_time_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "end_time_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "bats_version": {
+      "type": "string"
+    },
+    "suite": {
+      "type": "string"
+    },
+    "filter": {
+      "type": ["string", "null"]
+    },
+    "exit_code": {
+      "type": "integer"
+    },
+    "summary": {
+      "type": "object",
+      "required": ["total", "passed", "failed", "skipped", "duration_seconds"],
+      "properties": {
+        "total": { "type": "integer", "minimum": 0 },
+        "passed": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "skipped": { "type": "integer", "minimum": 0 },
+        "duration_seconds": { "type": "number", "minimum": 0 }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["gitops_control_plane_commit"],
+      "properties": {
+        "gitops_control_plane_commit": { "type": "string" },
+        "catalog_revisions": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "report_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": false
+}
