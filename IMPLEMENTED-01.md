@@ -28,6 +28,7 @@
 ## Evidence collected
 
 - `make ci` passed: 47 Applications rendered, 700 Kubernetes resources checked with no invalid resources, plus shell, secrets, policy, doc, and publisher stages.
+- GitHub control-plane CI [37904308723](https://github.com/brunobml/gitops-control-plane/actions/runs/37904308723) passed after the sanitizer fixtures were made independent of the developer host.
 - `make ci-catalog` equivalent targeted stages passed: CEL, RGD compatibility, render, and kubeconform (427 resources, no invalid resources).
 - Reporter `pytest`: 8 passed. Sanitizer unit tests: 8 passed.
 - GitHub Actions run [37902416622](https://github.com/brunobml/bats-test-reporter/actions/runs/37902416622) built and signed the image; `cosign verify` succeeded for its workflow identity; an unauthenticated GHCR manifest request returned HTTP 200.
