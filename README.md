@@ -105,7 +105,7 @@ bats_test_last_result{suite="05_supply_chain_admission.bats",test="Gate 11a: Kyv
 
 ### 1. Execute Smoke Tests
 
-Run the full 31-gate test suite:
+Run the full smoke suite (33 tests as of 2026-10-09):
 
 ```bash
 make test
@@ -119,7 +119,7 @@ Or run a single test gate:
 
 The test runner:
 - Preserves the Bats exit code unconditionally.
-- Generates a sanitized JUnit XML and metadata JSON in `~/.config/gitops-lab/reports/staging/<run_id>/`.
+- Generates sanitized JUnit XML and metadata JSON in the local `reports/archive/runs/YYYY/MM/DD/<run_id>/` directory. Staging is removed after publication.
 - Dual-publishes to Moto S3 bucket `gitops-lab-reports` and pushes to GitHub `bats-test-results`.
 
 ### 2. View in Browser
@@ -140,12 +140,12 @@ curl -s -H "Host: bats-reports.localhost" http://localhost:8081/api/runs | jq '.
 
 If Moto S3 is down during test execution:
 - The runner completes and Git push succeeds.
-- The failed S3 upload is queued in `~/.config/gitops-lab/reports/retry-queue/queue.jsonl`.
+- The failed S3 upload is queued in `~/.config/gitops-lab/reports/retry-queue.jsonl`.
 - The dashboard continues serving historical runs from the Git cache.
 - Drain the retry queue once Moto is recovered:
 
 ```bash
-./scripts/publish-bats-report.sh --retry-queue
+./scripts/publish-bats-report.sh --retry
 ```
 
 ---
@@ -164,4 +164,4 @@ If Moto S3 is down during test execution:
   - `templates/`
     - `index.html` - Responsive HTML dashboard.
 - `tests/` - Pytest unit and integration test suite.
-- `Dockerfile` - Security-hardened multi-stage container build (`nonroot:10001`).
+- `Dockerfile` - Non-root container build (`UID 10001`); the Deployment supplies the restricted security context.
