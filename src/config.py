@@ -16,8 +16,8 @@ class Settings:
     S3_BUCKET_NAME: str = os.getenv("S3_BUCKET_NAME", "gitops-lab-reports")
     S3_REGION: str = os.getenv("AWS_REGION", "us-east-1")
     S3_USE_PATH_STYLE: bool = os.getenv("AWS_S3_USE_PATH_STYLE", "true").lower() in ("true", "1", "yes")
-    AWS_ACCESS_KEY_ID: str = os.getenv("AWS_ACCESS_KEY_ID", "mock-key")
-    AWS_SECRET_ACCESS_KEY: str = os.getenv("AWS_SECRET_ACCESS_KEY", "mock-secret")
+    AWS_ACCESS_KEY_ID: str | None = os.getenv("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY: str | None = os.getenv("AWS_SECRET_ACCESS_KEY")
 
     # Git Archive Settings
     GIT_REPO_URL: str = os.getenv("GIT_REPO_URL", "https://github.com/brunobml/bats-test-results.git")

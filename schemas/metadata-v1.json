@@ -42,6 +42,9 @@
     "filter": {
       "type": ["string", "null"]
     },
+    "caller": {
+      "type": "string"
+    },
     "exit_code": {
       "type": "integer"
     },
