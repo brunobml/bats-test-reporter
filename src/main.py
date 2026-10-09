@@ -51,12 +51,12 @@ def index(request: Request, run_id: Optional[str] = Query(None)):
         selected_run = storage.get_run_detail(runs[0].run_id)
 
     return templates.TemplateResponse(
-        "index.html",
-        {
-            "request": request,
+        request=request,
+        name="index.html",
+        context={
             "runs": runs,
             "selected_run": selected_run,
-        }
+        },
     )
 
 
